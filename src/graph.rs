@@ -4,7 +4,7 @@ extern crate alloc;
 use alloc::vec::Vec;
 
 /// Path in an `AudioNode` tree.
-#[derive(Clone, Eq, PartialEq)]
+#[derive(Debug, Clone, Eq, PartialEq)]
 pub struct Path {
     /// The path, from root, of a node in the tree.
     path: Vec<u32>,
@@ -64,7 +64,7 @@ impl Path {
 }
 
 /// Connection from input source to output target.
-#[derive(Clone, Eq, PartialEq)]
+#[derive(Clone, Debug, Eq, PartialEq)]
 pub struct Edge {
     source: Path,
     target: Path,
@@ -83,7 +83,7 @@ impl Edge {
 }
 
 /// An `AudioNode` inside a tree of nodes.
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct Node {
     path: Path,
     id: u64,
@@ -115,7 +115,7 @@ impl Node {
 }
 
 /// A tree of `AudioNode`s converted into a directed acyclic graph.
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct Graph {
     edges: Vec<Edge>,
     nodes: Vec<Node>,

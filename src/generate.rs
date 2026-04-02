@@ -1,5 +1,7 @@
 //! Sound generators using the Dna system. WIP.
 
+use core::fmt;
+
 use funutd::dna::*;
 
 use super::audiounit::*;
@@ -20,6 +22,13 @@ pub trait Generated {
     fn get_unit(&self) -> Box<dyn AudioUnit>;
 }
 
+impl fmt::Debug for Box<dyn Generated> {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "Box<dyn Generated>")
+    }
+}
+
+#[derive(Debug)]
 pub struct GeneratedLeaf<U: Fn() -> Box<dyn AudioUnit>> {
     code: String,
     unit: U,
@@ -40,6 +49,7 @@ impl<U: Fn() -> Box<dyn AudioUnit>> Generated for GeneratedLeaf<U> {
     }
 }
 
+#[derive(Debug)]
 pub struct GeneratedUnary<C, U>
 where
     C: Fn(String) -> String,
@@ -73,6 +83,7 @@ where
     }
 }
 
+#[derive(Debug)]
 pub struct GeneratedBinary<C, U>
 where
     C: Fn(String, String) -> String,

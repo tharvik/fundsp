@@ -369,7 +369,7 @@ pub trait AudioNode: Clone + Sync + Send {
 }
 
 /// Pass through inputs unchanged.
-#[derive(Default, Clone)]
+#[derive(Clone, Debug, Default)]
 pub struct MultiPass<N> {
     _marker: PhantomData<N>,
 }
@@ -402,7 +402,7 @@ impl<N: Size<f32>> AudioNode for MultiPass<N> {
 }
 
 /// Pass through input unchanged.
-#[derive(Default, Clone)]
+#[derive(Debug, Default, Clone)]
 pub struct Pass {}
 
 impl Pass {
@@ -433,7 +433,7 @@ impl AudioNode for Pass {
 }
 
 /// Discard inputs.
-#[derive(Default, Clone)]
+#[derive(Clone, Debug, Default)]
 pub struct Sink<N> {
     _marker: PhantomData<N>,
 }
@@ -461,7 +461,7 @@ impl<N: Size<f32>> AudioNode for Sink<N> {
 }
 
 /// Output a constant value.
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct Constant<N: Size<f32>> {
     output: Frame<f32, N>,
 }
@@ -523,7 +523,7 @@ impl<N: Size<f32>> AudioNode for Constant<N> {
 }
 
 /// Split input into `N` channels.
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct Split<N> {
     _marker: PhantomData<N>,
 }
@@ -567,7 +567,7 @@ where
 }
 
 /// Split `M` inputs into `N` branches, with `M` * `N` outputs.
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct MultiSplit<M, N> {
     _marker: PhantomData<(M, N)>,
 }
@@ -613,7 +613,7 @@ where
 }
 
 /// Join `N` channels into one by averaging. Inverse of `Split<N>`.
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct Join<N> {
     _marker: PhantomData<N>,
 }
@@ -664,7 +664,7 @@ where
 
 /// Average `N` branches of `M` channels into one branch with `M` channels.
 /// The input has `M` * `N` channels. Inverse of `MultiSplit<M, N>`.
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct MultiJoin<M, N> {
     _marker: PhantomData<(M, N)>,
 }
@@ -734,7 +734,7 @@ pub trait FrameBinop<N: Size<f32>>: Clone + Sync + Send {
 }
 
 /// Addition operator.
-#[derive(Default, Clone)]
+#[derive(Debug, Default, Clone)]
 pub struct FrameAdd<N: Size<f32>> {
     _marker: PhantomData<N>,
 }
@@ -766,7 +766,7 @@ impl<N: Size<f32>> FrameBinop<N> for FrameAdd<N> {
 }
 
 /// Subtraction operator.
-#[derive(Default, Clone)]
+#[derive(Debug, Default, Clone)]
 pub struct FrameSub<N: Size<f32>> {
     _marker: PhantomData<N>,
 }
@@ -798,7 +798,7 @@ impl<N: Size<f32>> FrameBinop<N> for FrameSub<N> {
 }
 
 /// Multiplication operator.
-#[derive(Default, Clone)]
+#[derive(Clone, Debug, Default)]
 pub struct FrameMul<N: Size<f32>> {
     _marker: PhantomData<N>,
 }
@@ -846,7 +846,7 @@ impl<N: Size<f32>> FrameBinop<N> for FrameMul<N> {
     }
 }
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct Binop<B, X, Y>
 where
     B: FrameBinop<X::Outputs>,
@@ -1039,7 +1039,7 @@ pub trait FrameUnop<N: Size<f32>>: Clone + Sync + Send {
 }
 
 /// Negation operator.
-#[derive(Default, Clone)]
+#[derive(Clone, Debug, Default)]
 pub struct FrameNeg<N: Size<f32>> {
     _marker: PhantomData<N>,
 }
@@ -1075,7 +1075,7 @@ impl<N: Size<f32>> FrameUnop<N> for FrameNeg<N> {
 }
 
 /// Identity op.
-#[derive(Default, Clone)]
+#[derive(Clone, Debug, Default)]
 pub struct FrameId<N: Size<f32>> {
     _marker: PhantomData<N>,
 }
@@ -1103,7 +1103,7 @@ impl<N: Size<f32>> FrameUnop<N> for FrameId<N> {
 }
 
 /// Add scalar op.
-#[derive(Default, Clone)]
+#[derive(Clone, Debug, Default)]
 pub struct FrameAddScalar<N: Size<f32>> {
     scalar: f32,
     splat: F32x,
@@ -1144,7 +1144,7 @@ impl<N: Size<f32>> FrameUnop<N> for FrameAddScalar<N> {
 }
 
 /// Negate and add scalar op.
-#[derive(Default, Clone)]
+#[derive(Clone, Debug, Default)]
 pub struct FrameNegAddScalar<N: Size<f32>> {
     scalar: f32,
     splat: F32x,
@@ -1186,7 +1186,7 @@ impl<N: Size<f32>> FrameUnop<N> for FrameNegAddScalar<N> {
 }
 
 /// Multiply with scalar op.
-#[derive(Default, Clone)]
+#[derive(Clone, Debug, Default)]
 pub struct FrameMulScalar<N: Size<f32>> {
     scalar: f32,
     splat: F32x,
@@ -1228,7 +1228,7 @@ impl<N: Size<f32>> FrameUnop<N> for FrameMulScalar<N> {
 }
 
 /// Apply a unary operation to output of contained node.
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct Unop<X, U> {
     x: X,
     u: U,
@@ -1326,7 +1326,7 @@ where
 }
 
 /// Map any number of channels.
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct Map<M, I, O> {
     f: M,
     routing: Routing,
@@ -1371,7 +1371,7 @@ where
 }
 
 /// Pipe the output of `X` to `Y`.
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct Pipe<X, Y>
 where
     X: AudioNode,
@@ -1492,7 +1492,7 @@ where
 }
 
 /// Stack `X` and `Y` in parallel.
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct Stack<X, Y> {
     x: X,
     y: Y,
@@ -1649,7 +1649,7 @@ where
 }
 
 /// Send the same input to `X` and `Y`. Concatenate outputs.
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct Branch<X, Y> {
     x: X,
     y: Y,
@@ -1792,7 +1792,7 @@ where
 }
 
 /// Mix together `X` and `Y` sourcing from the same inputs.
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct Bus<X, Y>
 where
     X: AudioNode,
@@ -1947,7 +1947,7 @@ where
 
 /// Pass through inputs without matching outputs.
 /// Adjusts output arity to match input arity, adapting a filter to a pipeline.
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct Thru<X: AudioNode> {
     x: X,
 }
@@ -2061,7 +2061,7 @@ impl<X: AudioNode> AudioNode for Thru<X> {
 }
 
 /// Mix together a bunch of similar nodes sourcing from the same inputs.
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct MultiBus<N, X>
 where
     N: Size<f32> + Size<X>,
@@ -2207,7 +2207,7 @@ where
 }
 
 /// Stack a bunch of similar nodes in parallel.
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct MultiStack<N, X>
 where
     N: Size<f32> + Size<X>,
@@ -2362,7 +2362,7 @@ where
 /// Combine outputs of a bunch of similar nodes with a binary operation.
 /// Inputs are disjoint.
 /// Outputs are combined channel-wise.
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct Reduce<N, X, B>
 where
     N: Size<f32> + Size<X>,
@@ -2528,7 +2528,7 @@ where
 }
 
 /// Branch into a bunch of similar nodes in parallel.
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct MultiBranch<N, X>
 where
     N: Size<f32> + Size<X>,
@@ -2669,7 +2669,7 @@ where
 }
 
 /// A pipeline of multiple nodes.
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct Chain<N, X>
 where
     N: Size<f32> + Size<X>,
@@ -2804,7 +2804,7 @@ where
 }
 
 /// Reverse channel order.
-#[derive(Default, Clone)]
+#[derive(Clone, Debug, Default)]
 pub struct Reverse<N> {
     _marker: PhantomData<N>,
 }
@@ -2837,7 +2837,7 @@ impl<N: Size<f32>> AudioNode for Reverse<N> {
 }
 
 /// `N`-channel impulse. First sample on each channel is one, the rest are zero.
-#[derive(Default, Clone)]
+#[derive(Clone, Debug, Default)]
 pub struct Impulse<N: Size<f32>> {
     value: f32,
     _marker: PhantomData<N>,

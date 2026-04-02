@@ -13,7 +13,7 @@ use num_complex::Complex64;
 use numeric_array::typenum::*;
 
 /// State variable filter coefficients, generic formulation.
-#[derive(Clone, Default)]
+#[derive(Clone, Debug, Default)]
 pub struct SvfCoefs<F: Real> {
     pub a1: F,
     pub a2: F,
@@ -264,7 +264,7 @@ pub trait SvfMode<F: Real>: Clone + Default + Sync + Send {
     fn response(&self, params: &SvfParams<F>, frequency: f64) -> Complex64;
 }
 
-#[derive(Clone, Default)]
+#[derive(Clone, Debug, Default)]
 pub struct SvfParams<F: Real> {
     pub sample_rate: F,
     pub cutoff: F,
@@ -277,7 +277,7 @@ pub struct SvfParams<F: Real> {
 /// - Input 1: cutoff in Hz
 /// - Input 2: Q
 /// - Output 0: audio
-#[derive(Clone, Default)]
+#[derive(Clone, Debug, Default)]
 pub struct LowpassMode<F: Real> {
     _marker: PhantomData<F>,
 }
@@ -327,7 +327,7 @@ impl<F: Real> SvfMode<F> for LowpassMode<F> {
 /// - Input 1: cutoff in Hz
 /// - Input 2: Q
 /// - Output 0: audio
-#[derive(Clone, Default)]
+#[derive(Clone, Debug, Default)]
 pub struct HighpassMode<F: Real> {
     _marker: PhantomData<F>,
 }
@@ -376,7 +376,7 @@ impl<F: Real> SvfMode<F> for HighpassMode<F> {
 /// - Input 1: center in Hz
 /// - Input 2: Q
 /// - Output 0: audio
-#[derive(Clone, Default)]
+#[derive(Clone, Debug, Default)]
 pub struct BandpassMode<F: Real> {
     _marker: PhantomData<F>,
 }
@@ -425,7 +425,7 @@ impl<F: Real> SvfMode<F> for BandpassMode<F> {
 /// - Input 1: center in Hz
 /// - Input 2: Q
 /// - Output 0: audio
-#[derive(Clone, Default)]
+#[derive(Clone, Debug, Default)]
 pub struct NotchMode<F: Real> {
     _marker: PhantomData<F>,
 }
@@ -474,7 +474,7 @@ impl<F: Real> SvfMode<F> for NotchMode<F> {
 /// - Input 1: center in Hz
 /// - Input 2: Q
 /// - Output 0: audio
-#[derive(Clone, Default)]
+#[derive(Clone, Debug, Default)]
 pub struct PeakMode<F: Real> {
     _marker: PhantomData<F>,
 }
@@ -524,7 +524,7 @@ impl<F: Real> SvfMode<F> for PeakMode<F> {
 /// - Input 1: center in Hz
 /// - Input 2: Q
 /// - Output 0: audio
-#[derive(Clone, Default)]
+#[derive(Clone, Debug, Default)]
 pub struct AllpassMode<F: Real> {
     _marker: PhantomData<F>,
 }
@@ -574,7 +574,7 @@ impl<F: Real> SvfMode<F> for AllpassMode<F> {
 /// - Input 2: Q
 /// - Input 3: amplitude gain (gain > 0)
 /// - Output 0: audio
-#[derive(Clone, Default)]
+#[derive(Clone, Debug, Default)]
 pub struct BellMode<F: Real> {
     _marker: PhantomData<F>,
 }
@@ -628,7 +628,7 @@ impl<F: Real> SvfMode<F> for BellMode<F> {
 /// - Input 2: Q
 /// - Input 3: amplitude gain (gain > 0)
 /// - Output 0: audio
-#[derive(Clone, Default)]
+#[derive(Clone, Debug, Default)]
 pub struct LowshelfMode<F: Real> {
     _marker: PhantomData<F>,
 }
@@ -685,7 +685,7 @@ impl<F: Real> SvfMode<F> for LowshelfMode<F> {
 /// - Input 2: Q
 /// - Input 3: amplitude gain (gain > 0)
 /// - Output 0: audio
-#[derive(Clone, Default)]
+#[derive(Clone, Debug, Default)]
 pub struct HighshelfMode<F: Real> {
     _marker: PhantomData<F>,
 }
@@ -744,7 +744,7 @@ impl<F: Real> SvfMode<F> for HighshelfMode<F> {
 /// Simper SVF.
 /// - Inputs: see descriptions of the filter modes.
 /// - Output 0: filtered audio
-#[derive(Default, Clone)]
+#[derive(Default, Debug, Clone)]
 pub struct Svf<F, M>
 where
     F: Real,
@@ -857,7 +857,7 @@ where
 /// Simper SVF with fixed parameters.
 /// - Input 0: audio
 /// - Output 0: filtered audio
-#[derive(Default, Clone)]
+#[derive(Debug, Default, Clone)]
 pub struct FixedSvf<F, M>
 where
     F: Real,
@@ -1036,7 +1036,7 @@ where
 /// - Input 2: Q
 /// - Input 3: morph in -1...1 (-1 = lowpass, 0 = peak, 1 = highpass)
 /// - Output 0: filtered signal
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct Morph<F: Real> {
     filter: Svf<F, PeakMode<F>>,
     morph: f32,

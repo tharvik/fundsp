@@ -22,7 +22,7 @@ fn pan_weights<T: Real>(value: T) -> (T, T) {
 /// Input 1 (optional): pan value in -1...1
 /// Output 0: left output
 /// Output 1: right output
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct Panner<N: Size<f32>> {
     _marker: PhantomData<N>,
     left_weight: f32,
@@ -91,7 +91,7 @@ impl<N: Size<f32>> AudioNode for Panner<N> {
 }
 
 /// Mixing matrix with `M` input channels and `N` output channels.
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct Mixer<M, N>
 where
     M: Size<f32>,

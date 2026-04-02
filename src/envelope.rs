@@ -13,7 +13,7 @@ use numeric_array::*;
 /// Sample a time varying function.
 /// The return type can be scalar or tuple.
 /// It determines the number of output channels.
-#[derive(Default, Clone)]
+#[derive(Default, Debug, Clone)]
 pub struct Envelope<F, E, R>
 where
     F: Real,
@@ -181,7 +181,7 @@ where
 /// Sample a time varying, input dependent function.
 /// The return type can be scalar or tuple.
 /// It determines the number of output channels.
-#[derive(Default, Clone)]
+#[derive(Default, Debug, Clone)]
 pub struct EnvelopeIn<F, E, I, R>
 where
     F: Real,

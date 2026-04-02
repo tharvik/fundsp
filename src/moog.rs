@@ -13,7 +13,7 @@ use numeric_array::*;
 /// - Input 1 (optional): cutoff frequency (Hz)
 /// - Input 2 (optional): Q
 /// - Output 0: filtered signal
-#[derive(Default, Clone)]
+#[derive(Debug, Default, Clone)]
 pub struct Moog<F: Real, N: Size<f32>> {
     _marker: core::marker::PhantomData<N>,
     q: F,

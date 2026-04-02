@@ -10,6 +10,7 @@ use super::*;
 use core::sync::atomic::{AtomicUsize, Ordering};
 
 /// Sender side of a ring buffer.
+#[derive(Debug)]
 pub struct RingFront<N: Size<f32>, const M: usize> {
     /// Ring buffer.
     queue: Arc<QueueN<BufferArray<N>, M>>,
@@ -63,6 +64,7 @@ impl<N: Size<f32>, const M: usize> RingFront<N, M> {
 }
 
 /// Generator node that outputs audio data from a ring buffer sender (`RingFront`).
+#[derive(Debug)]
 pub struct Ring<N: Size<f32>, const M: usize> {
     /// Ring buffer.
     queue: Arc<QueueN<BufferArray<N>, M>>,

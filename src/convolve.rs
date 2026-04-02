@@ -5,7 +5,7 @@ use super::wave::*;
 use super::*;
 use fft_convolver::FFTConvolver;
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct Convolver {
     convolver: FFTConvolver<f32>,
 }

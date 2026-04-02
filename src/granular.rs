@@ -1,5 +1,7 @@
 //! Granular synthesizer. WIP.
 
+use core::fmt;
+
 use super::audiounit::*;
 use super::buffer::*;
 use super::math::*;
@@ -14,7 +16,7 @@ use alloc::boxed::Box;
 use alloc::vec;
 use alloc::vec::Vec;
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 struct Voice {
     /// Starting time of the next grain in this voice.
     pub next_time: f64,
@@ -42,6 +44,27 @@ pub struct Granular<
     time: f64,
     rnd_seed: u64,
     rnd: Rnd,
+}
+impl<X: Fn(f64, f32, f32, f32, f32, f32) -> (f32, f32, Box<dyn AudioUnit>) + Sync + Send + Clone>
+    fmt::Debug for Granular<X>
+{
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.debug_struct("Granular")
+            .field("voices", &self.voices)
+            .field("outputs", &self.outputs)
+            .field("beat_length", &self.beat_length)
+            .field("beats_per_cycle", &self.beats_per_cycle)
+            .field("jitter", &self.jitter)
+            .field("texture_origin", &self.texture_origin)
+            .field("inner_radius", &self.inner_radius)
+            .field("outer_radius", &self.outer_radius)
+            .field("sequencer", &self.sequencer)
+            .field("sample_rate", &self.sample_rate)
+            .field("time", &self.time)
+            .field("rnd_seed", &self.rnd_seed)
+            .field("rnd", &self.rnd)
+            .finish_non_exhaustive()
+    }
 }
 
 impl<X: Fn(f64, f32, f32, f32, f32, f32) -> (f32, f32, Box<dyn AudioUnit>) + Sync + Send + Clone>

@@ -7,6 +7,7 @@ use super::math::*;
 use super::setting::*;
 use super::signal::*;
 use super::*;
+use core::fmt;
 use core::marker::PhantomData;
 use dyn_clone::DynClone;
 use num_complex::Complex64;
@@ -372,6 +373,12 @@ pub trait AudioUnit: Send + Sync + DynClone {
 
 dyn_clone::clone_trait_object!(AudioUnit);
 
+impl fmt::Debug for Box<dyn AudioUnit> {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "Box<dyn AudioUnit>")
+    }
+}
+
 impl<X: AudioNode + Sync + Send> AudioUnit for An<X>
 where
     X::Inputs: Size<f32>,
@@ -427,7 +434,7 @@ where
 }
 
 /// Converts an AudioUnit into an AudioNode with `I` inputs and `O` outputs.
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct Unit<I: Size<f32>, O: Size<f32>> {
     _marker: PhantomData<(I, O)>,
     unit: Box<dyn AudioUnit>,
@@ -487,7 +494,7 @@ impl<I: Size<f32>, O: Size<f32>> AudioNode for Unit<I, O> {
 
 /// A big block adapter.
 /// The adapter enables calls to `process_big` with arbitrary buffer sizes.
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct BigBlockAdapter {
     source: Box<dyn AudioUnit>,
     input: BufferVec,
@@ -570,7 +577,7 @@ impl AudioUnit for BigBlockAdapter {
 /// Block rate adapter converts all processing calls to maximum length block processing.
 /// Maximizes performance at the expense of latency.
 /// The unit to be adapted must have no inputs.
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct BlockRateAdapter {
     unit: Box<dyn AudioUnit>,
     channels: usize,
@@ -660,7 +667,7 @@ impl AudioUnit for BlockRateAdapter {
 
 /// A dummy unit with zero output. It has an arbitrary number of inputs and outputs.
 /// `Net` uses this unit.
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct DummyUnit {
     inputs: usize,
     outputs: usize,

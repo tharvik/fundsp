@@ -6,7 +6,7 @@ extern crate alloc;
 use tinyvec::TinyVec;
 
 /// Contents of a mono signal. Used in latency and frequency response analysis.
-#[derive(Clone, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default)]
 pub enum Signal {
     /// Signal with unknown properties.
     #[default]
@@ -110,7 +110,7 @@ impl Signal {
 }
 
 /// Frame of input or output signals. Up to 16 channels can be analyzed on stack.
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct SignalFrame(TinyVec<[Signal; 16]>);
 
 impl SignalFrame {
@@ -158,7 +158,7 @@ impl SignalFrame {
 
 /// Signal routing information. This is a dumping ground for signal routing
 /// functionality.
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub enum Routing {
     /// Conservative routing: every input influences every output nonlinearly with extra latency in samples.
     Arbitrary(f64),

@@ -11,7 +11,7 @@ use numeric_array::*;
 /// Maximum length sequences (MLS) are pseudorandom, spectrally flat,
 /// binary white noise sequences with interesting properties.
 /// We have pre-baked sequences with state space sizes from 1 to 31 bits.
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, Debug)]
 pub struct MlsState {
     /// State space size in bits.
     n: u32,
@@ -97,7 +97,7 @@ impl MlsState {
 
 /// MLS noise component.
 /// - Output 0: noise.
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct Mls {
     mls: MlsState,
     seed: Option<u64>,
@@ -169,7 +169,7 @@ fn hash32x_simd(x: U32x) -> U32x {
 
 /// White noise component.
 /// - Output 0: noise.
-#[derive(Default, Clone)]
+#[derive(Debug, Default, Clone)]
 pub struct Noise {
     state: u32,
     seed: Option<u64>,
@@ -238,7 +238,7 @@ impl AudioNode for Noise {
 /// - Input 0: signal.
 /// - Input 1: sampling frequency (Hz).
 /// - Output 0: sampled signal.
-#[derive(Default, Clone)]
+#[derive(Debug, Default, Clone)]
 pub struct Hold {
     rnd: Rnd,
     hash: u64,

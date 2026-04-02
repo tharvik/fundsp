@@ -42,7 +42,7 @@ impl Atomic for f32 {
 }
 
 /// A shared float variable that can be accessed from multiple threads.
-#[derive(Default, Clone)]
+#[derive(Debug, Default, Clone)]
 pub struct Shared {
     value: Arc<AtomicU32>,
 }
@@ -81,7 +81,7 @@ impl Shared {
 }
 
 /// Outputs the value of a shared variable.
-#[derive(Default, Clone)]
+#[derive(Clone, Debug, Default)]
 pub struct Var {
     value: Arc<AtomicU32>,
 }
@@ -132,7 +132,7 @@ impl AudioNode for Var {
 }
 
 /// Outputs the value of a shared variable mapped through a function.
-#[derive(Default, Clone)]
+#[derive(Clone, Debug, Default)]
 pub struct VarFn<F, R>
 where
     F: Clone + Fn(f32) -> R + Send + Sync,
@@ -187,7 +187,7 @@ where
 }
 
 /// Store present stream time to a shared variable.
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct Timer {
     shared: Shared,
     time: f64,
@@ -237,7 +237,7 @@ impl AudioNode for Timer {
     }
 }
 
-#[derive(Clone, Default)]
+#[derive(Clone, Debug, Default)]
 pub enum Interpolation {
     #[default]
     Nearest,
@@ -246,6 +246,7 @@ pub enum Interpolation {
 }
 
 /// Atomic wavetable that can be modified on the fly.
+#[derive(Debug)]
 pub struct AtomicTable {
     table: Vec<AtomicU32>,
 }
@@ -314,7 +315,7 @@ impl AtomicTable {
 }
 
 /// Wavetable oscillator with nearest, linear or cubic interpolation that reads from an atomic wavetable.
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct AtomicSynth<T: Float> {
     table: Arc<AtomicTable>,
     /// Phase in 0...1.
@@ -389,7 +390,7 @@ impl<T: Float> AudioNode for AtomicSynth<T> {
 }
 
 /// This lock-free thing generates unique 64-bit IDs using 32-bit atomics.
-#[derive(Default)]
+#[derive(Debug, Default)]
 pub struct IdGenerator {
     low: AtomicU32,
     high: AtomicU32,

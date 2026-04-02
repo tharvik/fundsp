@@ -10,7 +10,7 @@ use super::*;
 use tinyvec::ArrayVec;
 
 /// Parameters specify what to set and to what value.
-#[derive(Default, Clone)]
+#[derive(Debug, Default, Clone)]
 pub enum Parameter {
     /// Default value.
     #[default]
@@ -48,7 +48,7 @@ pub enum Parameter {
 }
 
 /// Address specifies location to apply setting in a graph.
-#[derive(Default, Clone)]
+#[derive(Debug, Default, Clone)]
 pub enum Address {
     /// Default value.
     #[default]
@@ -64,7 +64,7 @@ pub enum Address {
 /// Settings are node parameters with no dedicated inputs.
 /// Nodes inside nodes can be accessed in the setting system by including an address
 /// in the setting. Up to four levels of address are supported.
-#[derive(Clone, Default)]
+#[derive(Clone, Debug, Default)]
 pub struct Setting {
     parameter: Parameter,
     address: ArrayVec<[Address; 6]>,
@@ -210,7 +210,7 @@ impl Setting {
     }
 }
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct SettingSender {
     sender: Arc<Queue<Setting>>,
 }
@@ -225,6 +225,7 @@ impl SettingSender {
 }
 
 /// Setting listener using MPMC from the lfqueue crate.
+#[derive(Debug)]
 pub struct SettingListener<X: AudioNode> {
     x: X,
     queue: Arc<Queue<Setting>>,

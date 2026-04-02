@@ -8,7 +8,7 @@ use super::signal::*;
 use super::*;
 use tinyvec::TinyVec;
 
-#[derive(Default, Clone)]
+#[derive(Debug, Default, Clone)]
 pub(crate) enum Message {
     /// Reset the sequencer.
     #[default]
@@ -23,17 +23,18 @@ pub(crate) enum Message {
     EditRelative(EventId, Edit),
 }
 
-#[derive(Default)]
+#[derive(Debug, Default)]
 pub(crate) struct SequencerMessage {
     pub edits: Vec<Message>,
 }
 
-#[derive(Default)]
+#[derive(Debug, Default)]
 pub(crate) struct SequencerReturn {
     pub msg: Box<TinyVec<[Option<SequencerMessage>; 256]>>,
     pub vec: Box<TinyVec<[Option<Event>; 256]>>,
 }
 
+#[derive(Debug)]
 pub struct SequencerBackend {
     /// For sending events for deallocation back to the frontend.
     pub(crate) sender: Arc<Queue<SequencerReturn>>,

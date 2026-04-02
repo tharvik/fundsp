@@ -9,6 +9,7 @@ use numeric_array::ArrayLength;
 /// containing 64 (`MAX_BUFFER_SIZE`) samples per channel. Samples are stored
 /// non-interleaved. Intended as a temporary borrow to feed into
 /// `AudioNode::process` or `AudioUnit::process`.
+#[derive(Debug)]
 pub struct BufferMut<'a>(&'a mut [F32x]);
 
 impl<'a> BufferMut<'a> {
@@ -153,6 +154,7 @@ impl<'a> BufferMut<'a> {
 /// Immutably borrowed audio buffer with an arbitrary number of channels
 /// containing 64 (`MAX_BUFFER_SIZE`) samples per channel. Samples are stored non-interleaved.
 /// Intended as a temporary borrow to feed into `AudioNode::process` or `AudioUnit::process`.
+#[derive(Debug)]
 pub struct BufferRef<'a>(&'a [F32x]);
 
 impl<'a> BufferRef<'a> {
@@ -237,7 +239,7 @@ impl<'a> BufferRef<'a> {
 
 /// An owned buffer on the heap with an arbitrary number of channels
 /// containing 64 (`MAX_BUFFER_SIZE`) samples per channel. Samples are stored non-interleaved.
-#[derive(Clone, Default)]
+#[derive(Clone, Debug, Default)]
 pub struct BufferVec {
     buffer: Vec<F32x>,
 }
@@ -359,7 +361,7 @@ impl BufferVec {
 /// The number of channels must be known at compile time:
 /// the size `N` is given as a type-level integer (`U0`, `U1`, ...).
 #[repr(C)]
-#[derive(Clone, Default)]
+#[derive(Clone, Debug, Default)]
 pub struct BufferArray<N: ArrayLength> {
     array: Frame<[F32x; SIMD_LEN], N>,
 }

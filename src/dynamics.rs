@@ -18,7 +18,7 @@ pub trait Monoidal<T>: Clone {
     fn binop(&self, x: T, y: T) -> T;
 }
 
-#[derive(Default, Clone)]
+#[derive(Clone, Debug, Default)]
 pub struct Amplitude<T: Num> {
     _marker: core::marker::PhantomData<T>,
 }
@@ -36,7 +36,7 @@ impl<T: Num> Monoidal<T> for Amplitude<T> {
     }
 }
 
-#[derive(Default, Clone)]
+#[derive(Debug, Default, Clone)]
 pub struct Maximum<T: Num> {
     _marker: core::marker::PhantomData<T>,
 }
@@ -55,7 +55,7 @@ impl<T: Num> Monoidal<T> for Maximum<T> {
 }
 
 /// Hierarchic reducer for a monoid.
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct ReduceBuffer<T, B>
 where
     T: Num,
@@ -121,7 +121,7 @@ where
 }
 
 /// Look-ahead limiter.
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct Limiter<N>
 where
     N: Size<f32>,
@@ -241,7 +241,7 @@ where
 /// After fade-in, pass signal through.
 /// - Input 0: input signal
 /// - Output 0: filtered signal
-#[derive(Default, Clone)]
+#[derive(Clone, Debug, Default)]
 pub struct Declick<F: Real> {
     t: F,
     duration: F,
@@ -313,7 +313,7 @@ impl<F: Real> AudioNode for Declick<F> {
 }
 
 /// Metering modes.
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, Debug)]
 pub enum Meter {
     /// Latest value.
     Sample,
@@ -332,7 +332,7 @@ impl Meter {
     }
 }
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct MeterState {
     /// Per-sample smoothing calculated from smoothing timescale.
     smoothing: f32,
@@ -394,7 +394,7 @@ impl MeterState {
 /// Meters the input and outputs a summary according to the chosen metering mode.
 /// - Input 0: input signal
 /// - Output 0: input summary
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct MeterNode {
     meter: Meter,
     state: MeterState,
@@ -438,6 +438,7 @@ impl AudioNode for MeterNode {
 
 /// Pass through input unchanged.
 /// Summary of the input signal is placed in a shared variable.
+#[derive(Debug)]
 pub struct Monitor {
     meter: Meter,
     state: MeterState,

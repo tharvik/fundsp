@@ -11,7 +11,7 @@ use super::*;
 /// A dynamical system is a node that has an attached update function
 /// `f(t, dt, x)` where `t` is current time, `dt` is time elapsed since
 /// the previous update, and `x` is the enclosed node.
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct System<X: AudioNode, F: FnMut(f32, f32, &mut X) + Clone + Send + Sync> {
     x: X,
     f: F,

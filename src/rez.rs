@@ -7,7 +7,7 @@ use super::signal::*;
 use super::*;
 use numeric_array::*;
 
-#[derive(Default, Clone)]
+#[derive(Debug, Default, Clone)]
 pub struct Rez<F, N> {
     buf0: F,
     buf1: F,

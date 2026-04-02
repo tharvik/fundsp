@@ -32,7 +32,7 @@ impl EventId {
 }
 
 /// Fade curves.
-#[derive(Clone, Default)]
+#[derive(Clone, Debug, Default)]
 pub enum Fade {
     /// Equal power fade. Results in equal power mixing
     /// when fade out of one event coincides with the fade in of another.
@@ -56,7 +56,7 @@ impl Fade {
     }
 }
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub(crate) struct Event {
     pub unit: Box<dyn AudioUnit>,
     pub start_time: f64,
@@ -112,7 +112,7 @@ impl Ord for Event {
     }
 }
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub(crate) struct Edit {
     pub end_time: f64,
     pub fade_out: f64,
@@ -215,7 +215,7 @@ fn fade_out(
 }
 
 /// Controls whether a sequencer retains and replays events after a reset.
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub enum ReplayMode {
     /// Retain past events on reset.
     All,
@@ -230,6 +230,7 @@ pub enum ReplayMode {
 }
 
 /// Sequencer mixes together scheduled audio events.
+#[derive(Debug)]
 pub struct Sequencer {
     /// Current events, unsorted.
     active: Vec<Event>,

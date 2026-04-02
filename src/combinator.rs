@@ -174,7 +174,7 @@ impl<T: Float> ScalarOrPair for (T, T) {
 }
 
 /// AudioNode wrapper that implements operators and traits.
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct An<X: AudioNode>(pub X);
 
 impl<X: AudioNode> core::ops::Deref for An<X> {

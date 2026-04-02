@@ -31,7 +31,7 @@ pub trait Shape: Clone + Sync + Send {
 }
 
 /// Memoryless waveshaper from a closure.
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct ShapeFn<S: Fn(f32) -> f32 + Clone + Sync + Send>(pub S);
 
 impl<S: Fn(f32) -> f32 + Clone + Sync + Send> Shape for ShapeFn<S> {
@@ -42,7 +42,7 @@ impl<S: Fn(f32) -> f32 + Clone + Sync + Send> Shape for ShapeFn<S> {
 }
 
 /// Clamp signal multiplied by the hardness parameter to -1...1.
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct Clip(pub f32);
 
 impl Shape for Clip {
@@ -57,7 +57,7 @@ impl Shape for Clip {
 }
 
 /// Clamp signal between the two arguments (minimum and maximum).
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct ClipTo(pub f32, pub f32);
 
 impl Shape for ClipTo {
@@ -75,7 +75,7 @@ impl Shape for ClipTo {
 
 /// Apply `tanh` distortion with configurable hardness.
 /// Argument to `tanh` is multiplied by the hardness value.
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct Tanh(pub f32);
 
 impl Shape for Tanh {
@@ -89,7 +89,7 @@ impl Shape for Tanh {
 /// The function has been modified to saturate at unity
 /// while maintaining a slope of 1 at origin.
 /// Argument to `atan` is multiplied by the hardness value.
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct Atan(pub f32);
 
 impl Shape for Atan {
@@ -105,7 +105,7 @@ impl Shape for Atan {
 
 /// Apply `softsign` distortion with configurable hardness.
 /// Argument to `softsign` is multiplied by the hardness value.
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct Softsign(pub f32);
 
 impl Shape for Softsign {
@@ -120,7 +120,7 @@ impl Shape for Softsign {
 }
 
 /// A staircase function with configurable number of levels per unit.
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct Crush(pub f32);
 
 impl Shape for Crush {
@@ -135,7 +135,7 @@ impl Shape for Crush {
 }
 
 /// A smooth staircase function with configurable number of levels per unit.
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct SoftCrush(pub f32);
 
 impl Shape for SoftCrush {
@@ -158,7 +158,7 @@ impl Shape for SoftCrush {
 /// It is the time it takes for level estimation to move halfway to a new level.
 /// Minimum estimated signal level for adaptive distortion is -60 dB.
 /// The argument to the inner shape is divided by the RMS level of the signal.
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct Adaptive<S: Shape> {
     /// Inner shape.
     inner: S,
@@ -201,7 +201,7 @@ impl<S: Shape> Shape for Adaptive<S> {
 }
 
 /// Waveshaper.
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct Shaper<S: Shape> {
     shape: S,
 }

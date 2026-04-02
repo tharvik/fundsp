@@ -60,7 +60,7 @@ impl NodeId {
 }
 
 /// Node introduced with a crossfade.
-#[derive(Clone, Default)]
+#[derive(Clone, Debug, Default)]
 pub(crate) struct NodeEdit {
     pub unit: Option<Box<dyn AudioUnit>>,
     pub id: NodeId,
@@ -114,7 +114,7 @@ pub(crate) fn edge(source: Port, target: Port) -> NetEdge {
 /// Network unit. It can contain other units and maintain connections between them.
 /// Outputs of the network are sourced from user specified unit outputs or
 /// global inputs, or are filled with zeros if not connected.
-#[derive(Default)]
+#[derive(Debug, Default)]
 pub struct Net {
     /// Global input buffers.
     input: BufferVec,

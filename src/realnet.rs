@@ -10,7 +10,7 @@ use super::*;
 use alloc::boxed::Box;
 
 /// Message from frontend to backend.
-#[derive(Default, Clone)]
+#[derive(Debug, Default, Clone)]
 pub(crate) enum NetMessage {
     #[default]
     Null,
@@ -19,7 +19,7 @@ pub(crate) enum NetMessage {
 }
 
 /// Message from backend to frontend.
-#[derive(Default, Clone)]
+#[derive(Debug, Default, Clone)]
 pub(crate) enum NetReturn {
     #[default]
     Null,
@@ -27,6 +27,7 @@ pub(crate) enum NetReturn {
     Unit(Box<dyn AudioUnit>),
 }
 
+#[derive(Debug)]
 pub struct NetBackend {
     /// For sending versions for deallocation back to the frontend.
     sender: Option<Arc<Queue<NetReturn>>>,

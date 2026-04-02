@@ -11,7 +11,7 @@ use alloc::boxed::Box;
 use alloc::vec;
 use alloc::vec::Vec;
 
-#[derive(Clone, Default)]
+#[derive(Clone, Debug, Default)]
 enum SlotMessage {
     #[default]
     Nothing,
@@ -23,6 +23,7 @@ enum SlotMessage {
 }
 
 /// Frontend for an updatable unit slot.
+#[derive(Debug)]
 pub struct Slot {
     inputs: usize,
     outputs: usize,
@@ -88,6 +89,7 @@ impl Slot {
     }
 }
 
+#[derive(Debug)]
 pub struct SlotBackend {
     inputs: usize,
     outputs: usize,

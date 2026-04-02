@@ -27,7 +27,7 @@ fn halfway_coeff(samples: f64) -> f64 {
 /// Setting: response time.
 /// - Input 0: input signal
 /// - Output 0: smoothed signal
-#[derive(Default, Clone)]
+#[derive(Clone, Debug, Default)]
 pub struct Follow<F: Real> {
     v3: F,
     v2: F,
@@ -133,7 +133,7 @@ impl<F: Real> AudioNode for Follow<F> {
 /// Smoothing filter with adjustable edge response times for attack and release.
 /// - Input 0: input signal
 /// - Output 0: smoothed signal
-#[derive(Default, Clone)]
+#[derive(Debug, Default, Clone)]
 pub struct AFollow<F: Real> {
     v3: F,
     v2: F,

@@ -140,7 +140,7 @@ pub fn reverb_fitness(reverb: An<impl AudioNode<Inputs = U2, Outputs = U2>>) -> 
 
 type Schroeder = AllNest<U1, Delay>;
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 struct ReverbBlock<F: AudioNode<Inputs = U1, Outputs = U1>> {
     allpass0: [Schroeder; 4],
     allpass1: [Schroeder; 4],
@@ -150,7 +150,7 @@ struct ReverbBlock<F: AudioNode<Inputs = U1, Outputs = U1>> {
 }
 
 /// Allpass loop based stereo reverb with user configurable loop filtering.
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct Reverb<F: AudioNode<Inputs = U1, Outputs = U1>> {
     pre: [Schroeder; 4],
     block: Vec<ReverbBlock<F>>,

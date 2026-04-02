@@ -14,7 +14,7 @@ use alloc::vec;
 use alloc::vec::Vec;
 
 /// Diffusive Hadamard feedback matrix. The number of channels must be a power of two.
-#[derive(Default, Clone)]
+#[derive(Clone, Debug, Default)]
 pub struct FrameHadamard<N: Size<f32>> {
     _marker: PhantomData<N>,
 }
@@ -67,7 +67,7 @@ impl<N: Size<f32>> FrameUnop<N> for FrameHadamard<N> {
 
 /// Mix back output of contained node to its input.
 /// The contained node must have an equal number of inputs and outputs.
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct Feedback<N, X, U>
 where
     N: Size<f32>,
@@ -179,7 +179,7 @@ where
 
 /// Mix back output of contained node `X` to its input, with extra feedback processing `Y`.
 /// The contained nodes must have an equal number of inputs and outputs.
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct Feedback2<N, X, Y, U>
 where
     N: Size<f32>,
@@ -314,7 +314,7 @@ where
 }
 
 /// Feedback unit with integrated delay.
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct FeedbackUnit {
     /// Contained feedback loop.
     x: Box<dyn AudioUnit>,

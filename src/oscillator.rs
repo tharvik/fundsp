@@ -17,7 +17,7 @@ use alloc::vec::Vec;
 /// Sine oscillator.
 /// - Input 0: frequency in Hz.
 /// - Output 0: sine wave.
-#[derive(Default, Clone)]
+#[derive(Debug, Default, Clone)]
 pub struct Sine<F: Real> {
     phase: F,
     sample_duration: F,
@@ -116,7 +116,7 @@ fn dsf<T: Real>(f: T, d: T, r: T, n: T) -> T {
 /// - Input 0: frequency in Hz.
 /// - Input 1 (optional): roughness in 0...1 is the relative amplitude of successive partials.
 /// - Output 0: DSF wave.
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct Dsf<N: Size<f32>> {
     phase: f32,
     roughness: f32,
@@ -211,7 +211,7 @@ impl<N: Size<f32>> AudioNode for Dsf<N> {
 /// - Allocates: pluck buffer.
 /// - Input 0: extra string excitation.
 /// - Output 0: plucked string.
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct Pluck {
     damping: Fir<typenum::U3>,
     tuning: Allpole<f32, typenum::U1>,
@@ -319,7 +319,7 @@ impl AudioNode for Pluck {
 /// Rossler dynamical system oscillator.
 /// - Input 0: frequency. The Rossler oscillator exhibits peaks at multiples of this frequency.
 /// - Output 0: system output
-#[derive(Clone, Default)]
+#[derive(Clone, Debug, Default)]
 pub struct Rossler {
     x: f32,
     y: f32,
@@ -378,7 +378,7 @@ impl AudioNode for Rossler {
 /// Lorenz dynamical system oscillator.
 /// - Input 0: frequency. The Lorenz system exhibits slight frequency effects.
 /// - Output 0: system output
-#[derive(Clone, Default)]
+#[derive(Clone, Debug, Default)]
 pub struct Lorenz {
     x: f32,
     y: f32,
@@ -437,7 +437,7 @@ impl AudioNode for Lorenz {
 /// Ascending ramp generator with output in 0...1. Not bandlimited.
 /// - Input 0: repetition frequency in Hz.
 /// - Output 0: current phase in 0...1.
-#[derive(Default, Clone)]
+#[derive(Default, Debug, Clone)]
 pub struct Ramp<F: Float> {
     phase: F,
     sample_duration: F,
@@ -525,7 +525,7 @@ fn polyblep<F: Real>(t: F, dt: F) -> F {
 /// A fast, fairly bandlimited algorithm for a saw wave.
 /// - Input 0: frequency (Hz).
 /// - Output 0: saw waveform in -1...1.
-#[derive(Default, Clone)]
+#[derive(Default, Debug, Clone)]
 pub struct PolySaw<F: Real> {
     phase: F,
     sample_duration: F,
@@ -601,7 +601,7 @@ impl<F: Real> AudioNode for PolySaw<F> {
 /// A fast, fairly bandlimited algorithm for a square wave.
 /// - Input 0: frequency (Hz).
 /// - Output 0: square waveform in -1...1.
-#[derive(Default, Clone)]
+#[derive(Default, Debug, Clone)]
 pub struct PolySquare<F: Real> {
     phase: F,
     sample_duration: F,
@@ -684,7 +684,7 @@ impl<F: Real> AudioNode for PolySquare<F> {
 /// - Input 0: frequency (Hz).
 /// - Input 1: pulse width in 0...1.
 /// - Output 0: pulse waveform in -1...1.
-#[derive(Default, Clone)]
+#[derive(Default, Debug, Clone)]
 pub struct PolyPulse<F: Real> {
     phase: F,
     sample_duration: F,

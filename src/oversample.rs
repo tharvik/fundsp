@@ -61,7 +61,7 @@ fn decimating_filter(output_buffer: &[f32], last_sample_index: usize) -> f32 {
     accumulator.reduce_add()
 }
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct Oversampler<X>
 where
     X: AudioNode,

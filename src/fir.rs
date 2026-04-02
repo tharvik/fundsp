@@ -10,7 +10,7 @@ use numeric_array::typenum::*;
 /// FIR filter.
 /// - Input 0: input signal
 /// - Output 0: filtered signal
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct Fir<N: Size<f32>> {
     w: Frame<f32, N>,
     v: Frame<f32, N>,

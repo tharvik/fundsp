@@ -132,7 +132,7 @@ impl<F: Float> BiquadCoefs<F> {
 /// - Setting: coefficients as tuple `Setting::biquad(a1, a2, b0, b1, b2)`.
 /// - Input 0: input signal.
 /// - Output 0: filtered signal.
-#[derive(Default, Clone)]
+#[derive(Debug, Default, Clone)]
 pub struct Biquad<F> {
     coefs: BiquadCoefs<F>,
     x1: F,
@@ -223,7 +223,7 @@ impl<F: Float> AudioNode for Biquad<F> {
 /// - Input 0: input signal
 /// - Input 1 (optional): cutoff frequency (Hz)
 /// - Output 0: filtered signal
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct ButterLowpass<F: Real, N: Size<f32>> {
     _marker: PhantomData<N>,
     biquad: Biquad<F>,
@@ -306,7 +306,7 @@ impl<F: Real, N: Size<f32>> AudioNode for ButterLowpass<F, N> {
 /// - Input 1 (optional): filter center (peak) frequency (Hz)
 /// - Input 2 (optional): filter Q
 /// - Output 0: filtered signal
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct Resonator<F: Real, N: Size<f32>> {
     _marker: PhantomData<N>,
     biquad: Biquad<F>,
@@ -382,7 +382,7 @@ impl<F: Real, N: Size<f32>> AudioNode for Resonator<F, N> {
 }
 
 /// Biquad filter common mode parameters. Filter modes use a subset of these.
-#[derive(Clone, Default)]
+#[derive(Clone, Debug, Default)]
 pub struct BiquadParams<F: Real> {
     /// Sample rate in Hz.
     pub sample_rate: F,
@@ -410,7 +410,7 @@ pub trait BiquadMode<F: Real>: Clone + Default + Sync + Send {
 }
 
 /// Resonator biquad mode.
-#[derive(Clone, Default)]
+#[derive(Clone, Debug, Default)]
 pub struct ResonatorBiquad<F: Real> {
     _marker: PhantomData<F>,
 }
@@ -430,7 +430,7 @@ impl<F: Real> BiquadMode<F> for ResonatorBiquad<F> {
 }
 
 /// Lowpass biquad mode.
-#[derive(Clone, Default)]
+#[derive(Clone, Debug, Default)]
 pub struct LowpassBiquad<F: Real> {
     _marker: PhantomData<F>,
 }
@@ -450,7 +450,7 @@ impl<F: Real> BiquadMode<F> for LowpassBiquad<F> {
 }
 
 /// Highpass biquad mode.
-#[derive(Clone, Default)]
+#[derive(Clone, Debug, Default)]
 pub struct HighpassBiquad<F: Real> {
     _marker: PhantomData<F>,
 }
@@ -470,7 +470,7 @@ impl<F: Real> BiquadMode<F> for HighpassBiquad<F> {
 }
 
 /// Bell biquad mode.
-#[derive(Clone, Default)]
+#[derive(Clone, Debug, Default)]
 pub struct BellBiquad<F: Real> {
     _marker: PhantomData<F>,
 }
@@ -489,7 +489,7 @@ impl<F: Real> BiquadMode<F> for BellBiquad<F> {
     }
 }
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 /// Biquad in transposed direct form II with nonlinear feedback.
 pub struct FbBiquad<F: Real, M: BiquadMode<F>, S: Shape> {
     mode: M,
@@ -586,7 +586,7 @@ impl<F: Real, M: BiquadMode<F>, S: Shape> AudioNode for FbBiquad<F, M, S> {
     }
 }
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 /// Biquad in transposed direct form II with nonlinear feedback, fixed parameters.
 pub struct FixedFbBiquad<F: Real, M: BiquadMode<F>, S: Shape> {
     mode: M,
@@ -695,7 +695,7 @@ impl<F: Real, M: BiquadMode<F>, S: Shape> AudioNode for FixedFbBiquad<F, M, S> {
 }
 
 /// Biquad in transposed direct form II with nonlinear state shaping.
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct DirtyBiquad<F: Real, M: BiquadMode<F>, S: Shape> {
     mode: M,
     coefs: BiquadCoefs<F>,
@@ -802,7 +802,7 @@ impl<F: Real, M: BiquadMode<F>, S: Shape> AudioNode for DirtyBiquad<F, M, S> {
 }
 
 /// Biquad in transposed direct form II with nonlinear state shaping, fixed parameters.
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct FixedDirtyBiquad<F: Real, M: BiquadMode<F>, S: Shape> {
     mode: M,
     coefs: BiquadCoefs<F>,

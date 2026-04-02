@@ -19,7 +19,7 @@ use alloc::vec::Vec;
 /// Multichannel wave in 32-bit float precision.
 /// Requires memory allocation via `Vec`.
 /// Each channel is stored in its own vector of samples.
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct Wave {
     /// Vector of channels.
     vec: Vec<Vec<f32>>,
@@ -735,7 +735,7 @@ impl Wave {
     }
 }
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct WavePlayer {
     wave: Arc<Wave>,
     channel: usize,

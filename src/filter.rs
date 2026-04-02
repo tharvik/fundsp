@@ -15,7 +15,7 @@ use numeric_array::*;
 /// - Input 0: input signal
 /// - Input 1 (optional): cutoff frequency (Hz)
 /// - Output 0: filtered signal
-#[derive(Default, Clone)]
+#[derive(Clone, Debug, Default)]
 pub struct Lowpole<F: Real, N: Size<f32>> {
     _marker: PhantomData<N>,
     value: F,
@@ -98,7 +98,7 @@ impl<F: Real, N: Size<f32>> AudioNode for Lowpole<F, N> {
 /// Setting: cutoff.
 /// - Input 0: signal
 /// - Output 0: zero centered signal
-#[derive(Default, Clone)]
+#[derive(Clone, Debug, Default)]
 pub struct DCBlock<F: Real> {
     x1: F,
     y1: F,
@@ -174,7 +174,7 @@ impl<F: Real> AudioNode for DCBlock<F> {
 /// Pinking filter (3 dB/octave lowpass).
 /// - Input 0: input signal
 /// - Output 0: filtered signal
-#[derive(Default, Clone)]
+#[derive(Clone, Debug, Default)]
 pub struct Pinkpass<F: Float> {
     // Algorithm by Paul Kellett. +-0.05 dB accuracy above 9.2 Hz @ 44.1 kHz.
     b0: F,
@@ -265,7 +265,7 @@ impl<F: Float> AudioNode for Pinkpass<F> {
 /// - Input 0: input signal
 /// - Input 1 (optional): delay in samples at DC (delay > 0)
 /// - Output 0: filtered signal
-#[derive(Default, Clone)]
+#[derive(Debug, Default, Clone)]
 pub struct Allpole<F: Float, N: Size<f32>> {
     _marker: PhantomData<N>,
     eta: F,
@@ -349,7 +349,7 @@ impl<F: Real, N: Size<f32>> AudioNode for Allpole<F, N> {
 /// - Input 0: input signal
 /// - Input 1 (optional): cutoff frequency (Hz)
 /// - Output 0: filtered signal
-#[derive(Default, Clone)]
+#[derive(Clone, Debug, Default)]
 pub struct Highpole<F: Real, N: Size<f32>> {
     _marker: PhantomData<N>,
     x1: F,

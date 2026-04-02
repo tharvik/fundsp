@@ -628,7 +628,7 @@ pub fn bpm_hz<T: Num>(bpm: T) -> T {
 
 /// Pico sized hasher.
 /// It is used in computing deterministic pseudorandom phase hashes.
-#[derive(Default, Clone)]
+#[derive(Clone, Debug, Default)]
 pub struct AttoHash {
     state: u64,
 }

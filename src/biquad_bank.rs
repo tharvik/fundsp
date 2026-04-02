@@ -10,7 +10,7 @@ use super::*;
 /// - Setting channel `i` coefficients: `Setting::biquad(a1, a2, b0, b1, b2).index(i)`.
 /// - Inputs: input signals.
 /// - Outputs: filtered signals.
-#[derive(Default, Clone)]
+#[derive(Clone, Debug, Default)]
 pub struct BiquadBank<F>
 where
     F: Float,

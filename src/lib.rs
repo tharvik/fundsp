@@ -18,6 +18,7 @@
     clippy::too_many_arguments,
     clippy::comparison_chain
 )]
+#![deny(missing_debug_implementations)]
 
 use numeric_array::{ArrayLength, NumericArray};
 use typenum::{U1, U4, U8};

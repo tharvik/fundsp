@@ -14,7 +14,7 @@ use alloc::vec::*;
 /// Medium = 32 taps (latency 16, attenuation 60 dB),
 /// High = 64 taps (latency 32, attenuation 90 dB), and
 /// Best = 128 taps (latency 64, attenuation 90 dB).
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub enum Quality {
     Medium,
     High,
@@ -48,6 +48,7 @@ impl Quality {
 /// FIR based sinc resampler. It supports these input and output sample rates:
 /// 16 kHz, 22.05 kHz, 32 kHz, 44.1 kHz, 48 kHz, 88.2 kHz, 96 kHz, 176.4 kHz, 192 kHz, 384 kHz.
 /// - Output(s): Resampled outputs of contained generator.
+#[derive(Debug)]
 pub struct ResampleFir<X>
 where
     X: AudioNode<Inputs = U0>,
@@ -206,7 +207,7 @@ where
 /// at speed obtained from input 0, where 1 is the original speed.
 /// - Input 0: Sampling speed.
 /// - Output(s): Resampled outputs of contained generator.
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct Resample<X>
 where
     X: AudioNode<Inputs = U0>,

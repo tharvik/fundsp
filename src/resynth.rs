@@ -18,7 +18,7 @@ const WINDOWS: usize = 4;
 
 /// A single FFT window. Contains input and output
 /// values in the frequency domain.
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct FftWindow {
     /// Window length. Must be a power of two and at least four.
     /// Equals the length of each input and output channel vector.
@@ -231,7 +231,7 @@ impl FftWindow {
 /// The latency is equal to the window length.
 /// If any output is a copy of an input, then the input will be reconstructed exactly once
 /// the windows are all overlapping, which happens one window length beyond latency.
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct Resynth<I, O, F>
 where
     I: Size<f32>,

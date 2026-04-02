@@ -15,7 +15,7 @@ use alloc::vec::Vec;
 /// Single sample delay with `N` channels.
 /// - Input(s): input signal.
 /// - Output(s): input signal delayed by one sample.
-#[derive(Clone, Default)]
+#[derive(Clone, Debug, Default)]
 pub struct Tick<N: Size<f32>> {
     buffer: Frame<f32, N>,
     sample_rate: f64,
@@ -68,7 +68,7 @@ impl<N: Size<f32>> AudioNode for Tick<N> {
 /// - Allocates: the delay line.
 /// - Input 0: input
 /// - Output 0: delayed input
-#[derive(Clone, Default)]
+#[derive(Clone, Debug, Default)]
 pub struct Delay {
     buffer: Vec<f32>,
     i: usize,
@@ -144,7 +144,7 @@ impl AudioNode for Delay {
 /// - Input 0: input
 /// - Inputs 1...N: delay amount in seconds.
 /// - Output 0: delayed input
-#[derive(Clone, Default)]
+#[derive(Clone, Debug, Default)]
 pub struct Tap<N>
 where
     N: Size<f32> + Add<U1>,
@@ -290,7 +290,7 @@ where
 /// - Input 0: input signal
 /// - Input 1 (optional): feedforward coefficient
 /// - Output 0: filtered signal
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct AllNest<N, X>
 where
     N: Size<f32>,
@@ -382,7 +382,7 @@ where
 /// - Input 0: input
 /// - Inputs 1...N: delay amount in seconds.
 /// - Output 0: delayed input
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct TapLinear<N>
 where
     N: Size<f32> + Add<U1>,

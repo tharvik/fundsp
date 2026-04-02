@@ -10,7 +10,7 @@ use alloc::vec;
 use alloc::vec::Vec;
 
 /// Buffer for snooped audio data.
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct SnoopBuffer {
     data: [f32; MAX_BUFFER_SIZE],
 }
@@ -44,6 +44,7 @@ impl SnoopBuffer {
 }
 
 /// Receiver for snooped audio data.
+#[derive(Debug)]
 pub struct Snoop {
     receiver: Arc<Queue<SnoopBuffer>>,
     index: usize,
@@ -109,7 +110,7 @@ impl Snoop {
 }
 
 /// The snoop backend node passes through audio data while sending it to the snoop frontend.
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct SnoopBackend {
     index: usize,
     buffer: SnoopBuffer,

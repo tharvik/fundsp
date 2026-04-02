@@ -11,7 +11,7 @@ use alloc::boxed::Box;
 use alloc::vec;
 use alloc::vec::Vec;
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 /// Individual AudioUnits are vertices in the graph.
 pub(crate) struct Vertex {
     /// The unit.
